@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:,">
+    <title>Title</title>
+    <style>
+        .cell {
+            border: 1px solid black; /* Задайте стиль границы */
+            padding: 8px; /* Задайте отступы внутри ячеек */
+        }
+    </style>
+</head>
+<body>
+<h1 th:text="${usersList}"></h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}" class="cell"></td>
+        <td class="cell">
+            <a th:href="@{'/' + ${user.id}}" th:text="${user.name}"></a>
+        </td>
+        <td th:text="${user.surname}" class="cell"></td>
+        <td th:text="${user.email}" class="cell"></td>
+    </tr>
+</table>
+
+<br>
+
+<a href=createUser> create new user </a>
+
+
+</body>
+
+
+</html>
