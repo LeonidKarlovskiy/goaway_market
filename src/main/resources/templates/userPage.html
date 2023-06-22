@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:,">
+    <title>Title</title>
+    <style>
+        .cell {
+            border: 1px solid black;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>Created at</th>
+    </tr>
+    <tr>
+        <td th:text="${user.id}" class="cell"></td>
+        <td th:text="${user.name}" class="cell"></td>
+        <td th:text="${user.surname}" class="cell"></td>
+        <td th:text="${user.email}" class="cell"></td>
+        <td th:text="${user.created}" class="cell"></td>
+        <td th:text="${user.getAvatar()}" class="cell"></td>
+    </tr>
+</table>
+
+<form th:action="@{/createPost(userId=${userId})}" th:object="${post}" method="post">
+
+    <label for="header">Header:</label>
+    <input type="text" id="header" th:field="*{header}">
+    <br><br>
+    <label for="content">Content:</label>
+    <input type="text" id="content" th:field="*{content}">
+    <br><br>
+    <button type="submit">Save</button>
+</form>
+
+<a href="/">Return to index</a>
+<br>
+<a th:href="@{${user.id} + '/edit'}" th:text="Edit"></a>
+</body>
+</html>
