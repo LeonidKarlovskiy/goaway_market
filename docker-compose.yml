@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  picturegramm-db:
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "picturegramm"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "497999"
+    ports:
+      - "5432:5432"
+#    networks:
+#      - my-network
+#
+#  picturegramm-app:
+#    build: .
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - my-network
+#
+#networks:
+#  my-network:
