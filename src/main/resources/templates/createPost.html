@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="data:,">
+    <meta charset="UTF-8">
+    <title>Create Post</title>
+    <style>
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-row label {
+            flex: 0 0 150px;
+            margin-right: 10px;
+        }
+        .form-row input[type="text"],
+        .form-row input[type="file"] {
+            flex: 3;
+            max-width: 230px;
+        }
+    </style>
+</head>
+<body>
+<h1>Создание поста</h1>
+<form th:object="${post}" th:action="@{/posts/createPost}" method="post">
+
+    <div>
+        <label for="header">Заголовок</label>
+        <input type="text" id="header" th:field="*{header}"/>
+        <label for="content">Описание</label>
+        <input type="text"  id="content" th:field="*{content}"/>
+    </div>
+
+    <div th:each="item, itemStat : ${post.itemList}" th:remove="tag">
+        <!-- Hidden input for item ID (if editing existing items) -->
+        <input type="hidden" th:field="*{itemList[__${itemStat.index}__].id}" />
+
+        <div class="form-row">
+            <button type="button" onclick="removeItem(this)">Удалить</button>
+
+            <label>Тип предмета:</label>
+            <input type="text" th:field="*{itemList[__${itemStat.index}__].type}" />
+
+            <label>О предмете:</label>
+            <input type="text" th:field="*{itemList[__${itemStat.index}__].about}" />
+
+            <label>Изображение предмета:</label>
+            <input type="file" name="itemList[__${itemStat.index}__].image" />
+        </div>
+    </div>
+
+    <!-- Button to add new empty item -->
+    <button type="button" onclick="addItem()">Добавить предмет</button>
+
+    <button type="submit">Отправить</button>
+</form>
+
+<script th:inline="javascript">
+    function addItem() {
+        var index = [[${post.itemList.size()}]];
+        var itemHtml = '<div class="form-row">' +
+            '<button type="button" onclick="removeItem(this)">Удалить</button>' +
+            '<label>Тип предмета:</label>' +
+            '<input type="text" th:field="*{itemList[__' + index + '__].type}" />' +
+            '<label>О предмете:</label>' +
+            '<input type="text" th:field="*{itemList[__' + index + '__].about}" />' +
+            '<label>Изображение предмета:</label>' +
+            '<input type="file" name="itemList[__' + index + '__].image" />' +
+            '</div>';
+        var container = document.createElement('div');
+        container.innerHTML = itemHtml;
+        var addItemButton = document.querySelector('button[type="button"][onclick="addItem()"]');
+        document.querySelector('form').insertBefore(container.firstChild, addItemButton);
+    }
+
+    function removeItem(button) {
+        var div = button.parentNode;
+        div.parentNode.removeChild(div);
+    }
+</script>
+
+</body>
+</html>
